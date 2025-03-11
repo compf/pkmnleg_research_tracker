@@ -1,0 +1,30 @@
+@using ResearchTaskLib;
+@rendermode InteractiveServer
+<span>@task.Type.Description</span>
+<span></span>
+<input type="number"  @bind="AmountDone"  />
+<span></span>
+@foreach (var goal in task.Goals)
+{
+    <span>
+    <ResearchTaskGoalComponent goal="@goal" isAchieved="@goal.HasAchieved(AmountDone)" />
+    </span>
+    <span></span>
+}
+@code{
+[Parameter]
+
+    public ResearchTaskEntry task{get;set;}
+
+    [Parameter]
+    public int AmountDone{
+        get{
+            return task.AmountDone;
+        }
+        set{
+            task.AmountDone = value;
+        }
+    }
+
+}
+

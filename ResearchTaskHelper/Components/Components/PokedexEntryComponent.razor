@@ -1,0 +1,19 @@
+@using ResearchTaskLib;
+<span>@entry.PokemonName</span>
+<span></span>
+@foreach (var task in entry.ResearchTasks)
+{
+            Console.WriteLine(task.Type.Description);
+            <p>
+            <ResearchTaskEntryComponent task="@task" />
+            </p>
+
+ 
+}
+@code{
+
+[Parameter]
+    public PokedexEntry entry{get;set;}
+}
+
+
