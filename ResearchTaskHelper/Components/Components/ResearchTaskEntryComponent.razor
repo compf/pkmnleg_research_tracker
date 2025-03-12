@@ -1,5 +1,11 @@
 @using ResearchTaskLib;
 @rendermode InteractiveServer
+@if(task.Points>10){
+    <span style="color:red">&gt;&gt;&nbsp;</span>
+}
+else{
+    <span>&nbsp;&nbsp;</span>
+}
 <span>@task.Type.Description</span>
 <span></span>
 <input type="number"  @bind="AmountDone"  />
