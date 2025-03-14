@@ -24,6 +24,7 @@ public static class ResearchData{
 class ResearchTaskInternHelper
 {
     static Dictionary<string, ResearchTaskType> researchTaskTypes = new Dictionary<string, ResearchTaskType>();
+    public static HashSet<string> uniqueTasks=new();
     static PokedexEntry PokeResearch(string name, string task,
 string goal1, string goal2, string goal3, string goal4, string goal5,
 int points, int goalProgress, int totalGoals)
@@ -42,11 +43,11 @@ int points, int goalProgress, int totalGoals)
 
 
         
-
+        uniqueTasks.Add(task);
         ResearchTaskEntry taskEntry = new ResearchTaskEntry()
         {
             Points = points,
-            Type = researchTaskTypes.GetOrCreate(task, () => new ResearchTaskType() { Description = task }),
+            Type = researchTaskTypes.GetOrCreate(task, () => new ResearchTaskType(task) ),
         };
         string[] goals={goal1, goal2, goal3, goal4, goal5};
 
