@@ -5,15 +5,35 @@
 
 <h1>Hello, world!</h1>
 
-Welcome to your new app.
 
-@foreach(var entry in ResearchData.researchTasks.Values)
+<label>Search</label><input @bind="SearchTerm" />
+<br />
+<br />
+@foreach (var entry in Entries)
 {
 
-        System.Console.WriteLine(entry.PokemonName);
-        Console.WriteLine(entry.ResearchTasks.Count);
-        
+
     <ResearchTaskHelper.Components.Components.PokedexEntryComponent entry="@entry" />
-       <hr/>
+    <hr />
 }
 
+@code {
+    private string searchTerm;
+    public string SearchTerm
+    {
+        get => searchTerm;
+        set
+        {
+            searchTerm = value;
+            var entries = ResearchData.researchTasks.Values;
+            if (String.IsNullOrWhiteSpace(SearchTerm))
+            {
+                Entries = entries;
+            }
+            Entries = from x in entries where x.PokemonName.StartsWith(SearchTerm) select x;
+        }
+    }
+
+    public IEnumerable<PokedexEntry> Entries { get; set; } = ResearchData.researchTasks.Values;
+
+}
