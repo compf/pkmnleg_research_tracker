@@ -10,13 +10,23 @@ public class CustomerDbContext : DbContext
 
 
     }
+    public Customer CreateRandom()
+    {
+        Random rnd=new Random();
+        int year=rnd.Next(1900,2018);
+        int month=rnd.Next(1,13);
+        int day=rnd.Next(1,28);
+        return new Customer(
+            null,
+            Guid.NewGuid().ToString(),
+           Guid.NewGuid().ToString(),
+         new DateTime(year,month,day)
+
+        );
+    }
     public void Seed()
     {
-        Customers.Add(new Customer(){
-            BDay=DateTime.FromFileTime(new Random().Next()),
-            LastName=Guid.NewGuid().ToString(),
-            FirstName=Guid.NewGuid().ToString(),
-        });
+        Customers.Add(CreateRandom());
         SaveChanges();
     }
 
@@ -30,6 +40,5 @@ public class CustomerDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        Seed();
     }
 }
