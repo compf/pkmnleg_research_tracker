@@ -1,0 +1,9 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
+public class Customer
+{
+    public int? Id{get;set;}
+    public string FirstName{get;set;}
+    public string LastName{get;set;}
+    public DateTime BDay{get;set;}
+}

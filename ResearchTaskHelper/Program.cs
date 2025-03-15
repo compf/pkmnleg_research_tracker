@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using ResearchTaskHelper.Components;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -5,7 +6,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+    builder.Services.AddDbContextFactory<CustomerDbContext>((x)=>{
+           const string DbPath="/home/compf/test.db";
+        x.UseSqlite($"Data Source={DbPath}");
 
+        x.ToString();
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -24,5 +30,6 @@ app.UseAntiforgery();
 app.MapStaticAssets();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
+
 
 app.Run();

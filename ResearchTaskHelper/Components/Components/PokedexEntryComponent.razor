@@ -1,11 +1,13 @@
 @using ResearchTaskLib;
+@inject  CustomerDbContext ctx;
 <span>@entry.PokemonName</span>
 <span></span>
 @foreach (var task in entry.ResearchTasks)
 {
-            Console.WriteLine(task.Type.Description);
             <p>
             <ResearchTaskEntryComponent task="@task" />
+            @ctx.Database;
+
             </p>
 
  
