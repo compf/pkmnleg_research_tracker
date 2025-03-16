@@ -16,20 +16,20 @@ else
     <table class="table">
         <thead>
             <tr>
-                <th @onclick="()=>SortBy(0)">Id</th>
-                <th @onclick="()=>SortBy(1)" >First Name</th>
-                <th @onclick="()=>SortBy(2)"> Last name</th>
-                <th @onclick="()=>SortBy(3)">Birthday</th>
+                <th @onclick="()=>SortBy(0)">@orderChars[orderIndices[0]] Id</th>
+                <th @onclick="()=>SortBy(1)" >@orderChars[orderIndices[1]] First Name</th>
+                <th @onclick="()=>SortBy(2)">@orderChars[orderIndices[2]] Last name</th>
+                <th @onclick="()=>SortBy(3)">@orderChars[orderIndices[3]] Birthday</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var c in Customers)
             {
                 <tr>
-                    <td>@c.Id</td>
-                    <td>@c.FirstName</td>
-                    <td>@c.LastName</td>
-                    <td>@c.BDay</td>
+                    <td> @c.Id</td>
+                    <td> @c.FirstName</td>
+                    <td> @c.LastName</td>
+                    <td> @c.BDay</td>
                 </tr>
             }
         </tbody>
@@ -37,6 +37,15 @@ else
 }
 
 @code {
+    const char ASCENDING_CHAR='↓';
+    const char DESCENDING_CHAR='↑';
+    char?[] orderChars={
+        null,
+        ASCENDING_CHAR,
+        DESCENDING_CHAR
+        };
+    
+    int[] orderIndices=new int[4];
     private void SortBy(int x)
     {
         Func<Customer,IComparable>[] orderGroups=
@@ -46,8 +55,16 @@ else
             (c)=>c.LastName,
             (c)=>c.BDay
         };
-
-        Customers=Customers.OrderBy(orderGroups[x]);
+         orderIndices[x]=(orderIndices[x]+1) %orderChars.Length;
+        char? orderChar=orderChars[orderIndices[x]];
+        if(orderChar==ASCENDING_CHAR || orderChar==null)
+        {
+            Customers=Customers.OrderBy(orderGroups[x]);
+        }
+        else{
+            Customers=Customers.OrderByDescending(orderGroups[x]);
+        }
+       
     }
     public IEnumerable<Customer> Customers{get;set;}
 
