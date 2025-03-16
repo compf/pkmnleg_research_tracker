@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 public class CustomerDbContext : DbContext
 {
     public DbSet<Customer> Customers { get; set; }
+    public DbSet<ProfilePicture> ProfilePicture{get;set;}
 
     public CustomerDbContext(DbContextOptions opt)
 : base(opt)

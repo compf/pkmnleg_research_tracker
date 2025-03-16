@@ -1,0 +1,76 @@
+@page "/customers/{CustomerId}"
+@using Microsoft.EntityFrameworkCore
+@inject CustomerDbContext context;
+
+
+
+@if (customer != null)
+{
+    <EditForm Model="@customer">
+
+        <InputText @bind-Value="customer.FirstName"></InputText>
+        <InputText @bind-Value="customer.LastName"></InputText>
+
+        <InputDate @bind-Value="customer.BDay" />
+
+        <InputFile multiple OnChange="AddProfilePicture" />
+    </EditForm>
+    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+  <div class="carousel-inner">
+ 
+    @foreach(var img in customer.ProfilePictures)
+    {
+ <div>
+      <img  src="data:image/png;base64,@Convert.ToBase64String(img.ImageData)"  style="width: 300px;" alt="@img.Description">
+    </div>
+    
+        initial=false;
+    
+    }
+   
+  </div>
+  <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+}
+
+@code {
+        bool initial=true;
+
+    [Parameter]
+    public string CustomerId { get; set; }
+    public Customer customer { get; set; }
+    protected override void OnParametersSet()
+    {
+        Console.WriteLine(CustomerId);
+      var customers= context.Customers.Include((x)=>x.ProfilePictures);
+    
+      customer=customers.First(x=>x.Id.ToString()==CustomerId);
+       
+    }
+    private async void AddProfilePicture(InputFileChangeEventArgs e)
+    {
+        Console.WriteLine("added profile picture");
+        foreach (var f in e.GetMultipleFiles())
+        {
+            
+            using (Stream s = f.OpenReadStream(1024 * 1024 * 1024))
+            {
+                using var memoryStream = new MemoryStream();
+                await s.CopyToAsync(memoryStream);
+                var smallFileByteArray = memoryStream.ToArray();
+                customer.ProfilePictures.Add(new ProfilePicture(){Description=f.Name,ImageData=smallFileByteArray});
+                context.SaveChanges();
+
+            }
+        }
+
+
+    }
+}
