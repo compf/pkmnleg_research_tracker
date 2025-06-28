@@ -25,15 +25,15 @@
         set
         {
             searchTerm = value;
-            var entries = ResearchData.researchTasks.Values;
+            var entries = Entries;
             if (String.IsNullOrWhiteSpace(SearchTerm))
             {
                 Entries = entries;
             }
-            Entries = from x in entries where x.PokemonName.StartsWith(SearchTerm) select x;
+            Entries = from x in entries where x.Name.StartsWith(SearchTerm) select x;
         }
     }
 
-    public IEnumerable<PokedexEntry> Entries { get; set; } = ResearchData.researchTasks.Values;
+    public IEnumerable<PokedexEntry> Entries { get; set; } = ResearchData.Pokedex;
 
 }

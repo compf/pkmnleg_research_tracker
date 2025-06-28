@@ -12,16 +12,24 @@ else{
 <span></span>
 @foreach (var goal in task.Goals)
 {
-    <span>
-    <ResearchTaskGoalComponent goal="@goal" isAchieved="@goal.HasAchieved(AmountDone)" />
-    </span>
-    <span></span>
+   @if(!IsAchieved(goal,AmountDone))
+{
+    <span>@goal</span>
+}
+else
+{
+    <span style="color:red">@goal</span>
+   
+}
+    <span style="margin-left:5px"></span>
 }
 @code{
 [Parameter]
 
     public ResearchTaskEntry task{get;set;}
-
+    public bool IsAchieved(int goal, int amountDone){
+        return amountDone>=goal;
+    }
     [Parameter]
     public int AmountDone{
         get{
