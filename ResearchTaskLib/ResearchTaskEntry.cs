@@ -8,4 +8,8 @@ public class ResearchTaskEntry
     public ResearchTaskType Type => new ResearchTaskType(Description);
 
     public int[] Goals { get; set; }
+    public bool IsDone()
+    {
+        return AmountDone >= Goals[Goals.Length - 1];
+    }
 }

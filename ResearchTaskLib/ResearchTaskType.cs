@@ -156,6 +156,18 @@ public class ResearchTaskType
         }
         return false;
     }
+    public bool CatchWithoutActuallyCatching(PokedexEntry entry)
+    {
+        if (Type == ResearchTaskTypeEnum.Caught || Type == ResearchTaskTypeEnum.CaughtHeavy ||
+         Type == ResearchTaskTypeEnum.CaughtLarge ||
+        Type == ResearchTaskTypeEnum.CaughtLight || Type == ResearchTaskTypeEnum.CaughtNight ||
+        Type == ResearchTaskTypeEnum.CaughtDay || Type == ResearchTaskTypeEnum.CaughtEvening 
+        )
+        {
+            return entry.EvolvesFrom ==true ;
+        }
+        return false;
+    }
     public enum ResearchTaskTypeEnum
     {
         Caught,
