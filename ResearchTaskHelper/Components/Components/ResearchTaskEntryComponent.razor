@@ -1,17 +1,28 @@
 @using ResearchTaskLib;
 @rendermode InteractiveServer
+<style>
+    .catchWithoutActuallyCatching{
+        text-decoration:underline
+    }
+</style>
+@code{
+    string getDescriptionClass()
+    {
+        if(task.Type.CatchWithoutActuallyCatching(entry))
+        {
+            return "catchWithoutActuallyCatching";
+        }
+        return null;;
+    }
+}
 @if(task.Points>10){
     <span style="color:red">&gt;&gt;&nbsp;</span>
 }
 else{
     <span>&nbsp;&nbsp;</span>
 }
-@if(task.Type.CatchWithoutActuallyCatching(entry)){
-<b>@task.Type.Description</b>
-}
-else{
-<span>@task.Type.Description</span>
-}
+<span class="@getDescriptionClass()">@task.Type.Description</span>
+
 
 <span></span>
 <input type="number"  @bind="AmountDone"  />

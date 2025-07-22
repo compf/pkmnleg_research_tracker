@@ -5,16 +5,28 @@
 
 <h1>Hello, world!</h1>
 
-
+<div style="position:sticky;top:60px;background-color:rgba(128,128,128,0.5)">
 <label>Search</label><input @bind="SearchTerm" />
+</div>
 <br />
 <br />
 @foreach (var entry in Entries)
 {
 
+    @if(!string.IsNullOrEmpty(SearchTerm) && !entry.Name.StartsWith(SearchTerm) && ! entry.GermanName.StartsWith(SearchTerm))
+    {
+       
+    }
 
-    <ResearchTaskHelper.Components.Components.PokedexEntryComponent entry="@entry" />
+    else if(entry.ResearchTasks.All((t)=>t.AmountDone>=t.Goals.Last()))
+    {
+
+    }
+    else{
+          <ResearchTaskHelper.Components.Components.PokedexEntryComponent entry="@entry" />
     <hr />
+    }
+  
 }
 
 @code {
@@ -25,12 +37,7 @@
         set
         {
             searchTerm = value;
-            var entries = Entries;
-            if (String.IsNullOrWhiteSpace(SearchTerm))
-            {
-                Entries = entries;
-            }
-            Entries = from x in entries where x.Name.StartsWith(SearchTerm) select x;
+           
         }
     }
 
