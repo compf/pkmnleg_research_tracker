@@ -15,11 +15,17 @@ static class ExxtensionMethods
     }
 
 }
-public static class ResearchData{
-    public static List<PokedexEntry> Pokedex=new List<PokedexEntry>();
+public static class ResearchData
+{
+    public static List<PokedexEntry> Pokedex = new List<PokedexEntry>();
     static ResearchData()
     {
         Pokedex = JsonSerializer.Deserialize<List<PokedexEntry>>(File.ReadAllText("research_output.json"));
+    }
+    public static void Save()
+    {
+        string value = JsonSerializer.Serialize(Pokedex);
+        File.WriteAllText("research_output.json", value);
     }
 
 }
